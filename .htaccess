@@ -1,0 +1,18 @@
+RewriteEngine On
+
+# Bloquear acceso a archivos sensibles
+<FilesMatch "^(\.env|\.env\..*|config\.php|api-client\.php|\.git|composer\.(json|lock))$">
+	Require all denied
+</FilesMatch>
+
+# Endurecimiento basico de respuestas
+<IfModule mod_headers.c>
+	Header always set X-Content-Type-Options "nosniff"
+	Header always set X-Frame-Options "SAMEORIGIN"
+	Header always set Referrer-Policy "strict-origin-when-cross-origin"
+	Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+</IfModule>
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [QSA,L]
