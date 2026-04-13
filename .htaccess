@@ -1,5 +1,12 @@
 RewriteEngine On
 
+# Forzar rutas dinámicas aunque exista la carpeta turnos en producción
+RewriteRule ^turnos/?$ index.php [QSA,L]
+RewriteRule ^turnos/(.*)$ index.php [QSA,L]
+RewriteRule ^exclusivo/?$ index.php [QSA,L]
+RewriteRule ^exclusivo/(.*)$ index.php [QSA,L]
+RewriteRule ^api/(.*)$ index.php [QSA,L]
+
 # Bloquear acceso a archivos sensibles
 <FilesMatch "^(\.env|\.env\..*|config\.php|api-client\.php|\.git|composer\.(json|lock))$">
 	Require all denied
