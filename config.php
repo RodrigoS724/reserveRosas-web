@@ -89,6 +89,21 @@ function remoteApiToken(): string
     return env('API_REMOTE_TOKEN', '') ?? '';
 }
 
+function publicSocketUrl(): string
+{
+    $explicit = trim((string)(env('SOCKET_PUBLIC_URL', '') ?? ''));
+    if ($explicit !== '') {
+        return rtrim($explicit, '/');
+    }
+
+    $remote = rtrim(remoteApiUrl(), '/');
+    if ($remote !== '' && str_ends_with($remote, '/api')) {
+        $remote = substr($remote, 0, -4);
+    }
+
+    return $remote;
+}
+
 function requireToken(): void
 {
     $token = apiToken();

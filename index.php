@@ -666,10 +666,12 @@ endif;
       <path d="M19.11 17.2c-.27-.13-1.62-.8-1.87-.89-.25-.09-.44-.13-.62.13-.18.27-.71.89-.88 1.07-.16.18-.32.2-.6.07-.27-.13-1.15-.43-2.2-1.36-.81-.72-1.36-1.61-1.52-1.88-.16-.27-.02-.41.12-.55.12-.12.27-.32.4-.48.13-.16.18-.27.27-.45.09-.18.04-.33-.02-.46-.07-.13-.62-1.5-.85-2.06-.22-.53-.45-.46-.62-.47l-.53-.01c-.18 0-.46.07-.71.33-.25.27-.93.91-.93 2.22 0 1.31.96 2.58 1.09 2.75.13.18 1.88 2.87 4.56 4.03.64.28 1.14.45 1.53.58.64.2 1.22.17 1.68.1.51-.08 1.62-.66 1.85-1.29.23-.64.23-1.18.16-1.29-.07-.11-.25-.18-.53-.31zM16.02 5.5c-5.77 0-10.46 4.7-10.46 10.46 0 1.85.5 3.65 1.45 5.22L5.5 26.5l5.5-1.43a10.43 10.43 0 0 0 5.02 1.27c5.77 0 10.46-4.7 10.46-10.46S21.8 5.5 16.02 5.5zm0 19.1c-1.64 0-3.24-.44-4.65-1.27l-.33-.2-3.26.85.87-3.18-.21-.33a8.36 8.36 0 0 1-1.32-4.54c0-4.62 3.75-8.37 8.37-8.37 4.62 0 8.37 3.75 8.37 8.37 0 4.62-3.75 8.37-8.37 8.37z"/>
     </svg>
   </a>
+  <script src="https://cdn.socket.io/4.8.1/socket.io.min.js" crossorigin="anonymous"></script>
     <script>
     const BASE_PATH = <?php echo json_encode($basePath); ?>;
     const API_BASE = (BASE_PATH === '/' ? '' : BASE_PATH);
     const API_ORIGIN = window.location.origin + API_BASE;
+    const SOCKET_ORIGIN = <?php echo json_encode(publicSocketUrl(), JSON_UNESCAPED_SLASHES); ?> || API_ORIGIN;
     const PAGE_LOADED_AT = Date.now();
     const PDF_LOGO_URL = <?php echo json_encode($logoUrl, JSON_UNESCAPED_SLASHES); ?>;
     const $ = (id) => document.getElementById(id);
@@ -726,6 +728,7 @@ endif;
     const availabilityCache = {};
     let cargandoDisponibilidad = false;
     let lastDisponibilidadKey = '';
+    let realtimeSocket = null;
 
     const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
     const MIN_ADVANCE_HOURS = 24;
@@ -879,6 +882,40 @@ endif;
     function setStatus(el, text, ok = true) {
       el.textContent = text;
       el.className = ok ? 'text-xs mt-1 text-emerald-600' : 'text-xs mt-1 text-rose-600';
+    }
+
+    function initRealtimeSocket() {
+      if (typeof window.io !== 'function' || !SOCKET_ORIGIN) return;
+
+      let origin = SOCKET_ORIGIN;
+      let socketPath = '/socket.io';
+
+      try {
+        const parsed = new URL(SOCKET_ORIGIN);
+        origin = parsed.origin;
+        const basePath = parsed.pathname && parsed.pathname !== '/' ? parsed.pathname.replace(/\/+$/, '') : '';
+        socketPath = `${basePath}/socket.io`;
+      } catch {}
+
+      realtimeSocket = window.io(origin, {
+        path: socketPath,
+        transports: ['websocket', 'polling'],
+        reconnection: true,
+        timeout: 6000
+      });
+
+      realtimeSocket.on('rr:sync', (payload) => {
+        const scope = String(payload?.scope || '');
+        if (!['reservas', 'horarios'].includes(scope)) return;
+
+        if (fecha.value) {
+          delete availabilityCache[fecha.value];
+          fetchHorarios();
+        }
+
+        lastDisponibilidadKey = '';
+        renderCalendar();
+      });
     }
 
     async function fetchHorarios() {
@@ -1298,6 +1335,7 @@ endif;
       renderCalendar();
     });
 
+    initRealtimeSocket();
     setFechaInicial();
 
     ['nombre', 'marca', 'modelo', 'km'].forEach(id => {
