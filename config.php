@@ -81,12 +81,12 @@ function hashToken(string $token): string
 
 function remoteApiUrl(): string
 {
-    return env('API_REMOTE_URL', '') ?? '';
+    return env('API_REMOTE_URL', 'https://rosas.uy/api-server') ?? 'https://rosas.uy/api-server';
 }
 
 function remoteApiToken(): string
 {
-    return env('API_REMOTE_TOKEN', '') ?? '';
+    return env('API_REMOTE_TOKEN', 'gh2t2oNre50TR4ZucrkssNPFb8LnDhD5JT9gM89ERy4') ?? 'gh2t2oNre50TR4ZucrkssNPFb8LnDhD5JT9gM89ERy4';
 }
 
 function requireToken(): void

@@ -12,13 +12,13 @@ La web hace proxy a una API Node.js remota. No requiere MySQL local.
 
 **Requisitos:**
 - PHP 8.0+
-- Acceso HTTP a la API remota (ej: `http://rosas.uy/reserva`)
+- Acceso HTTP a la API remota (ej: `https://rosas.uy/api-server`)
 
 **Configuración:**
 1. Copia `.env.example` a `.env`
 2. Completa:
    ```env
-   API_REMOTE_URL=http://rosas.uy/reserva
+   API_REMOTE_URL=https://rosas.uy/api-server
    API_REMOTE_TOKEN=gh2t2oNre50TR4ZucrkssNPFb8LnDhD5JT9gM89ERy4
    ```
 
