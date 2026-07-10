@@ -173,7 +173,7 @@ if (str_starts_with($path, '/api')) {
       }
         
         // Validar campos requeridos localmente
-        $required = ['nombre', 'telefono', 'marca', 'modelo', 'matricula', 'tipo_turno', 'fecha', 'hora'];
+        $required = ['nombre', 'cedula', 'telefono', 'marca', 'modelo', 'matricula', 'tipo_turno', 'fecha', 'hora'];
         foreach ($required as $field) {
             if (empty($data[$field])) {
                 jsonResponse(['ok' => false, 'error' => "Campo requerido: {$field}"], 400);
@@ -254,7 +254,7 @@ $previewPayload = [
           </div>
           <div>
             <div class="text-xs uppercase tracking-[0.28em] text-emerald-600 font-black">Rosas Uy</div>
-            <div class="text-sm text-slate-500 font-semibold">Actitud deportiva</div>
+            <div class="text-sm text-slate-500 font-semibold">Tu servicio de confianza</div>
           </div>
         </div>
 
@@ -404,71 +404,96 @@ if (!$isTurnosRoute):
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Rosas Uy | Actitud deportiva</title>
+  <title>Rosas Uy | Agenda aquí</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-white text-slate-900">
-  <div class="min-h-screen bg-white">
-    <header class="max-w-6xl mx-auto px-5 py-5 flex flex-col md:flex-row md:items-center md:justify-between gap-4 border-b border-slate-200">
+<body class="bg-[#07110d] text-[#e6fff1]">
+  <div class="relative min-h-screen overflow-hidden bg-[radial-gradient(circle_at_top_left,_rgba(22,185,84,0.18),_transparent_36%),radial-gradient(circle_at_top_right,_rgba(18,51,36,0.95),_transparent_30%),linear-gradient(180deg,#07110d_0%,#0d1713_48%,#07110d_100%)]">
+    <div class="pointer-events-none absolute -top-24 left-1/2 h-80 w-80 -translate-x-1/2 rounded-full bg-[#16b95422] blur-3xl"></div>
+    <header class="relative z-10 max-w-6xl mx-auto px-5 py-5 flex flex-col md:flex-row md:items-center md:justify-between gap-4 border-b border-[#1e382d]/80">
       <a href="<?php echo htmlspecialchars($homeUrl, ENT_QUOTES); ?>" class="flex items-center gap-3">
-        <div class="h-14 w-14 rounded-2xl border border-slate-200 bg-slate-950 p-2 flex items-center justify-center overflow-hidden">
+        <div class="h-14 w-14 rounded-2xl border border-[#24503d] bg-[#123324] p-2 flex items-center justify-center overflow-hidden shadow-lg shadow-black/20">
           <img src="<?php echo htmlspecialchars($logoUrl, ENT_QUOTES); ?>" alt="Rosas Uy" class="h-full w-full object-contain" />
         </div>
         <div>
-          <div class="text-xs uppercase tracking-[0.28em] text-emerald-600 font-black">Rosas Uy</div>
-          <div class="text-sm text-slate-500 font-semibold">Actitud deportiva</div>
+          <div class="text-xs uppercase tracking-[0.28em] text-[#74f3a5] font-black">Rosas Uy</div>
+          <div class="text-sm text-[#9dc9b2] font-semibold">Tu servicio de confianza</div>
         </div>
       </a>
 
-      <nav class="flex items-center gap-2">
-        <a href="<?php echo htmlspecialchars($instagramUrl, ENT_QUOTES); ?>" target="_blank" rel="noreferrer" class="px-4 py-2 rounded-xl border border-slate-200 bg-white text-sm font-bold text-slate-700 hover:bg-slate-50 transition-colors">Instagram</a>
-        <a href="<?php echo htmlspecialchars($turnosUrl, ENT_QUOTES); ?>" class="px-4 py-2 rounded-xl bg-emerald-500 text-white text-sm font-black shadow-lg shadow-emerald-100 hover:bg-emerald-600 transition-colors">Turnos</a>
+      <nav class="flex flex-wrap items-center gap-2">
+        <a href="<?php echo htmlspecialchars($turnosUrl, ENT_QUOTES); ?>" class="px-4 py-2 rounded-xl bg-[#16b954] text-white text-sm font-black shadow-lg shadow-[#16b95433] hover:bg-[#0f9e46] transition-colors">Agenda</a>
+        <a href="<?php echo htmlspecialchars($instagramUrl, ENT_QUOTES); ?>" target="_blank" rel="noreferrer" class="px-4 py-2 rounded-xl border border-[#2a6449] bg-[#16271f] text-sm font-bold text-[#d7f5e6] hover:bg-[#1c3328] transition-colors">Instagram</a>
       </nav>
     </header>
 
-    <main class="max-w-6xl mx-auto px-5 pb-16 pt-10">
-      <section class="grid lg:grid-cols-[1.1fr_0.9fr] gap-10 items-center">
+    <main class="relative z-10 max-w-6xl mx-auto px-5 pb-16 pt-10 md:pt-16">
+      <section class="grid lg:grid-cols-[1.05fr_0.95fr] gap-10 items-center">
         <div>
-          <span class="inline-flex px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-[11px] font-black uppercase tracking-[0.24em] border border-emerald-100">Taller y agenda online</span>
-          <h1 class="mt-4 text-4xl md:text-6xl font-black tracking-tight leading-none text-slate-950">Service, reparación y reservas online para tu moto.</h1>
-          <p class="mt-4 text-slate-600 text-base md:text-lg leading-relaxed max-w-2xl">
-            En Rosas Uy puedes coordinar turnos de forma clara, rápida y profesional, con una experiencia simple para tus clientes y una agenda ordenada para el taller.
+          <span class="inline-flex px-3 py-1 rounded-full bg-[#123324] text-[#74f3a5] text-[11px] font-black uppercase tracking-[0.24em] border border-[#2a6449]">Agenda aquí</span>
+          <h1 class="mt-4 text-4xl md:text-6xl font-black tracking-tight leading-[0.95] text-[#f0fff7]">Tu servicio de confianza, con agenda simple y rápida.</h1>
+          <p class="mt-5 text-[#b1d8c4] text-base md:text-lg leading-relaxed max-w-2xl">
+            Reservá tu turno en pocos pasos, dejá claros los datos de la moto y llegá al taller con todo ordenado desde el inicio.
           </p>
 
-          <div class="mt-6 flex flex-wrap gap-3">
-            <a href="<?php echo htmlspecialchars($turnosUrl, ENT_QUOTES); ?>" class="px-5 py-3 rounded-2xl bg-emerald-500 text-white font-black uppercase tracking-widest text-sm shadow-lg shadow-emerald-100 hover:bg-emerald-600 transition-colors">Reservar turno</a>
-            <a href="<?php echo htmlspecialchars($whatsappUrl, ENT_QUOTES); ?>" target="_blank" rel="noreferrer" class="px-5 py-3 rounded-2xl border border-slate-200 bg-white text-slate-800 font-black uppercase tracking-widest text-sm hover:bg-slate-50 transition-colors">WhatsApp</a>
-            <a href="<?php echo htmlspecialchars($instagramUrl, ENT_QUOTES); ?>" target="_blank" rel="noreferrer" class="px-5 py-3 rounded-2xl border border-slate-200 bg-white text-slate-800 font-black uppercase tracking-widest text-sm hover:bg-slate-50 transition-colors">Instagram</a>
+          <div class="mt-7 flex flex-wrap gap-3">
+            <a href="<?php echo htmlspecialchars($turnosUrl, ENT_QUOTES); ?>" class="px-5 py-3 rounded-2xl bg-[#16b954] text-white font-black uppercase tracking-widest text-sm shadow-lg shadow-[#16b95433] hover:bg-[#0f9e46] transition-colors">Agendar ahora</a>
+            <a href="<?php echo htmlspecialchars($whatsappUrl, ENT_QUOTES); ?>" target="_blank" rel="noreferrer" class="px-5 py-3 rounded-2xl border border-[#2a6449] bg-[#16271f] text-[#d7f5e6] font-black uppercase tracking-widest text-sm hover:bg-[#1c3328] transition-colors">WhatsApp</a>
+            <a href="<?php echo htmlspecialchars($instagramUrl, ENT_QUOTES); ?>" target="_blank" rel="noreferrer" class="px-5 py-3 rounded-2xl border border-[#2a6449] bg-[#16271f] text-[#d7f5e6] font-black uppercase tracking-widest text-sm hover:bg-[#1c3328] transition-colors">Instagram</a>
           </div>
 
-          <div class="mt-8 space-y-4 text-slate-600 max-w-2xl">
-            <div class="flex gap-3">
-              <span class="mt-2 h-2.5 w-2.5 rounded-full bg-emerald-500 shrink-0"></span>
-              <div>
-                <div class="font-black text-slate-900">Agenda simple y directa</div>
-                <p class="text-sm mt-1">Consulta disponibilidad real y reserva el horario que mejor te quede.</p>
-              </div>
+          <div class="mt-8 grid sm:grid-cols-3 gap-3 max-w-2xl">
+            <div class="rounded-2xl border border-[#234435] bg-[#0f1d17]/90 p-4 backdrop-blur">
+              <div class="text-xs uppercase tracking-[0.22em] text-[#74f3a5] font-black">Agenda</div>
+              <div class="mt-2 text-sm text-[#e6fff1] font-semibold">Reservas claras y rápidas.</div>
             </div>
-            <div class="flex gap-3">
-              <span class="mt-2 h-2.5 w-2.5 rounded-full bg-emerald-500 shrink-0"></span>
-              <div>
-                <div class="font-black text-slate-900">Datos claros del cliente y la moto</div>
-                <p class="text-sm mt-1">Todo queda ordenado desde el primer contacto para trabajar más cómodo.</p>
-              </div>
+            <div class="rounded-2xl border border-[#234435] bg-[#0f1d17]/90 p-4 backdrop-blur">
+              <div class="text-xs uppercase tracking-[0.22em] text-[#74f3a5] font-black">Atención</div>
+              <div class="mt-2 text-sm text-[#e6fff1] font-semibold">Datos del cliente y la moto en orden.</div>
             </div>
-            <div class="flex gap-3">
-              <span class="mt-2 h-2.5 w-2.5 rounded-full bg-emerald-500 shrink-0"></span>
-              <div>
-                <div class="font-black text-slate-900">Confirmación profesional</div>
-                <p class="text-sm mt-1">La reserva se genera con un comprobante limpio y fácil de compartir.</p>
-              </div>
+            <div class="rounded-2xl border border-[#234435] bg-[#0f1d17]/90 p-4 backdrop-blur">
+              <div class="text-xs uppercase tracking-[0.22em] text-[#74f3a5] font-black">Confianza</div>
+              <div class="mt-2 text-sm text-[#e6fff1] font-semibold">Tu servicio de confianza, siempre a mano.</div>
             </div>
           </div>
         </div>
 
-        <div class="relative flex items-center justify-center min-h-[320px]">
-          <div class="absolute h-56 w-56 rounded-full bg-emerald-100 blur-3xl"></div>
-          <img src="<?php echo htmlspecialchars($logoUrl, ENT_QUOTES); ?>" alt="Rosas Uy" class="relative h-52 w-52 md:h-64 md:w-64 object-contain drop-shadow-[0_20px_60px_rgba(16,185,129,0.22)]" />
+        <div class="relative">
+          <div class="absolute inset-0 rounded-[32px] bg-[#16b9541a] blur-3xl"></div>
+          <div class="relative rounded-[32px] border border-[#2a6449] bg-[linear-gradient(180deg,rgba(18,51,36,0.96),rgba(12,25,20,0.96))] p-6 md:p-8 shadow-2xl shadow-black/30">
+            <div class="flex items-center justify-between gap-4 mb-6">
+              <div>
+                <div class="text-xs uppercase tracking-[0.28em] text-[#74f3a5] font-black">Rosas Uy</div>
+                <h2 class="mt-2 text-2xl md:text-3xl font-black text-[#f0fff7]">Agenda aquí</h2>
+              </div>
+              <div class="h-16 w-16 rounded-2xl bg-[#123324] border border-[#2a6449] p-2 flex items-center justify-center overflow-hidden">
+                <img src="<?php echo htmlspecialchars($logoUrl, ENT_QUOTES); ?>" alt="Rosas Uy" class="h-full w-full object-contain" />
+              </div>
+            </div>
+
+            <div class="grid gap-3">
+              <div class="rounded-2xl border border-[#234435] bg-[#0f1d17] p-4">
+                <div class="text-xs uppercase tracking-[0.22em] text-[#74f3a5] font-black">Service</div>
+                <div class="mt-1 text-sm text-[#d7f5e6]">Mantenimientos para dejar la moto lista.</div>
+              </div>
+              <div class="rounded-2xl border border-[#234435] bg-[#0f1d17] p-4">
+                <div class="text-xs uppercase tracking-[0.22em] text-[#74f3a5] font-black">Reparación</div>
+                <div class="mt-1 text-sm text-[#d7f5e6]">Diagnóstico y solución de fallas.</div>
+              </div>
+              <div class="rounded-2xl border border-[#234435] bg-[#0f1d17] p-4">
+                <div class="text-xs uppercase tracking-[0.22em] text-[#74f3a5] font-black">Toma</div>
+                <div class="mt-1 text-sm text-[#d7f5e6]">Dejá la moto y seguimos con el trabajo.</div>
+              </div>
+            </div>
+
+            <div class="mt-6 flex items-center justify-between rounded-2xl border border-[#234435] bg-[#123324] px-4 py-3">
+              <div>
+                <div class="text-xs uppercase tracking-[0.22em] text-[#74f3a5] font-black">Contacto</div>
+                <div class="text-sm text-[#e6fff1] font-semibold">WhatsApp e Instagram activos.</div>
+              </div>
+              <a href="<?php echo htmlspecialchars($turnosUrl, ENT_QUOTES); ?>" class="px-4 py-2 rounded-xl bg-[#16b954] text-white font-black text-sm hover:bg-[#0f9e46] transition-colors">Ir a turnos</a>
+            </div>
+          </div>
         </div>
       </section>
     </main>
@@ -488,40 +513,53 @@ endif;
   <title>Turnos | Rosas Uy</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+  <style>
+    :root {
+      --rr-bg: #0d1411;
+      --rr-bg-soft: #11201a;
+      --rr-card: #16271f;
+      --rr-card-soft: #1c3328;
+      --rr-border: #2a6449;
+      --rr-accent: #16b954;
+      --rr-accent-strong: #0f9e46;
+      --rr-text: #d7f5e6;
+      --rr-text-soft: #abd4bf;
+    }
+  </style>
 </head>
 
-<body class="[color-scheme:light]">
-  <div class="min-h-screen bg-gradient-to-b from-emerald-50 via-white to-emerald-50 text-slate-800">
+<body class="[color-scheme:dark]">
+  <div class="min-h-screen bg-gradient-to-b from-[#0d1411] via-[#11201a] to-[#0d1411] text-[var(--rr-text)]">
     <div class="max-w-5xl mx-auto px-5 py-10">
       <header class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div class="flex items-center gap-3">
-          <div class="h-12 w-12 rounded-xl bg-slate-900 p-1.5 overflow-hidden flex items-center justify-center">
+          <div class="h-12 w-12 rounded-xl bg-[#123324] border border-[var(--rr-border)] p-1.5 overflow-hidden flex items-center justify-center">
             <img src="<?php echo htmlspecialchars($logoUrl, ENT_QUOTES); ?>" alt="Rosas Uy" class="h-full w-full object-contain" />
           </div>
           <div>
-            <h1 class="text-3xl md:text-4xl font-black tracking-tight text-emerald-900">Reserva de Turno</h1>
-            <p class="text-emerald-700 mt-1">Taller Central Rosas</p>
+            <h1 class="text-3xl md:text-4xl font-black tracking-tight text-[#ecfff5]">Agenda tu turno</h1>
+            <p class="text-[#9dc9b2] mt-1">Tu servicio de confianza</p>
           </div>
         </div>
         <div class="flex items-center gap-2">
-          <a href="<?php echo htmlspecialchars($homeUrl, ENT_QUOTES); ?>" class="px-3 py-1.5 rounded-full border border-emerald-200 text-xs text-emerald-700 bg-white">Inicio</a>
-          <a href="<?php echo htmlspecialchars($instagramUrl, ENT_QUOTES); ?>" target="_blank" rel="noreferrer" class="px-3 py-1.5 rounded-full border border-emerald-200 text-xs text-emerald-700 bg-white">Instagram</a>
-          <span class="px-3 py-1.5 rounded-full border border-emerald-200 text-xs text-emerald-700 bg-white">Online</span>
+          <a href="<?php echo htmlspecialchars($homeUrl, ENT_QUOTES); ?>" class="px-3 py-1.5 rounded-full border border-[var(--rr-border)] text-xs text-[#d7f5e6] bg-[var(--rr-card)]">Inicio</a>
+          <a href="<?php echo htmlspecialchars($instagramUrl, ENT_QUOTES); ?>" target="_blank" rel="noreferrer" class="px-3 py-1.5 rounded-full border border-[var(--rr-border)] text-xs text-[#d7f5e6] bg-[var(--rr-card)]">Instagram</a>
+          <span class="px-3 py-1.5 rounded-full border border-[var(--rr-border)] text-xs text-[#7ef0a9] bg-[var(--rr-card)]">Online</span>
         </div>
       </header>
 
-      <div class="rounded-2xl border border-emerald-100 bg-white p-6 md:p-8 shadow-xl" id="stepCalendario">
-        <div class="text-sm font-black uppercase tracking-widest text-emerald-600 mb-4">Paso 1 : Elegir fecha y hora</div>
+      <div class="rounded-2xl border border-[var(--rr-border)] bg-[var(--rr-card)] p-6 md:p-8 shadow-xl shadow-black/20" id="stepCalendario">
+        <div class="text-sm font-black uppercase tracking-widest text-[#7ef0a9] mb-4">Paso 1 : Elegir fecha y hora</div>
         <div class="grid gap-6 md:grid-cols-[280px_1fr] md:items-start">
-          <div class="rounded-2xl border border-emerald-100 bg-emerald-50/60 p-4 w-full max-w-sm mx-auto">
-            <div class="flex items-center justify-between mb-3">
+          <div class="rounded-2xl border border-[var(--rr-border)] bg-[var(--rr-card-soft)] p-3 sm:p-4 w-full max-w-[22rem] mx-auto">
+            <div class="flex items-center justify-between gap-2 mb-3">
               <button id="calPrev" type="button"
-                class="h-8 w-8 rounded-full border border-emerald-200 bg-white text-emerald-700 hover:border-emerald-400">&lsaquo;</button>
-              <div id="calTitle" class="text-sm font-black text-emerald-900"></div>
+                class="h-8 w-8 shrink-0 rounded-full border border-[var(--rr-border)] bg-[var(--rr-card)] text-[#d7f5e6] hover:border-[var(--rr-accent)]">&lsaquo;</button>
+              <div id="calTitle" class="flex-1 text-center text-sm sm:text-base font-black text-[#ecfff5]"></div>
               <button id="calNext" type="button"
-                class="h-8 w-8 rounded-full border border-emerald-200 bg-white text-emerald-700 hover:border-emerald-400">&rsaquo;</button>
+                class="h-8 w-8 shrink-0 rounded-full border border-[var(--rr-border)] bg-[var(--rr-card)] text-[#d7f5e6] hover:border-[var(--rr-accent)]">&rsaquo;</button>
             </div>
-            <div class="grid grid-cols-7 text-[10px] uppercase tracking-widest text-emerald-700 font-black mb-2">
+            <div class="grid grid-cols-7 text-[8px] sm:text-[10px] uppercase tracking-[0.18em] text-[#9dc9b2] font-black mb-2 gap-0.5 sm:gap-1">
               <div class="text-center">Dom</div>
               <div class="text-center">Lun</div>
               <div class="text-center">Mar</div>
@@ -530,59 +568,53 @@ endif;
               <div class="text-center">Vie</div>
               <div class="text-center">Sab</div>
             </div>
-            <div id="calGrid" class="grid grid-cols-7 gap-1"></div>
+            <div id="calGrid" class="grid grid-cols-7 gap-0.5 sm:gap-1"></div>
             <input id="fecha" type="hidden" />
-            <div id="fechaSeleccion" class="mt-3 text-xs text-emerald-700"></div>
+            <div id="fechaSeleccion" class="mt-3 text-[11px] sm:text-xs text-[#9dc9b2] leading-snug"></div>
           </div>
           <div class="space-y-3 w-full">
             <div>
-              <label class="block text-[10px] uppercase tracking-widest text-emerald-700 font-black mb-2">Horarios disponibles</label>
+              <label class="block text-[10px] uppercase tracking-widest text-[#9dc9b2] font-black mb-2">Horarios disponibles</label>
               <div id="horarios" class="space-y-2 max-h-64 overflow-auto pr-1"></div>
-              <div id="horariosStatus" class="text-xs mt-2 text-emerald-700"></div>
+              <div id="horariosStatus" class="text-xs mt-2 text-[#9dc9b2]"></div>
             </div>
             <div class="pt-2">
               <button id="btnContinuar"
-                class="bg-emerald-600 text-white font-black tracking-widest uppercase px-6 py-3 rounded-xl shadow-lg shadow-emerald-900/10 disabled:opacity-50 disabled:cursor-not-allowed"
+                class="bg-[var(--rr-accent)] text-white font-black tracking-widest uppercase px-6 py-3 rounded-xl shadow-lg shadow-[#16b95433] disabled:opacity-50 disabled:cursor-not-allowed"
                 disabled>Continuar</button>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="rounded-2xl border border-emerald-100 bg-white p-6 md:p-8 shadow-xl hidden" id="stepFormulario">
-  <div class="text-sm font-black uppercase tracking-widest text-emerald-600 mb-4">Paso 2 · Datos del cliente y vehículo</div>
+      <div class="rounded-2xl border border-[var(--rr-border)] bg-[var(--rr-card)] p-6 md:p-8 shadow-xl shadow-black/20 hidden" id="stepFormulario">
+  <div class="text-sm font-black uppercase tracking-widest text-[#7ef0a9] mb-4">Paso 2 · Datos del cliente y tipo de trabajo</div>
   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
     <div>
-      <label class="block text-[10px] uppercase tracking-widest text-emerald-700 font-black mb-2">Nombre completo</label>
-      <input id="nombre" type="text" placeholder="Titular del vehículo (nombre y apellido)"
-        class="w-full rounded-xl bg-emerald-50 border border-emerald-200 px-4 py-3 text-emerald-900" />
+      <label class="block text-[10px] uppercase tracking-widest text-[#9dc9b2] font-black mb-2">Nombre</label>
+      <input id="nombre" type="text" placeholder="Tu nombre"
+        class="w-full rounded-xl bg-[var(--rr-card-soft)] border border-[var(--rr-border)] px-4 py-3 text-[var(--rr-text)]" />
       <div id="nombreStatus" class="text-xs mt-1"></div>
     </div>
     <div>
-      <label class="block text-[10px] uppercase tracking-widest text-emerald-700 font-black mb-2">Cédula</label>
+      <label class="block text-[10px] uppercase tracking-widest text-[#9dc9b2] font-black mb-2">Cédula</label>
       <input id="cedula" type="text" placeholder="1.234.567-8"
-        class="w-full rounded-xl bg-emerald-50 border border-emerald-200 px-4 py-3 text-emerald-900" />
+        class="w-full rounded-xl bg-[var(--rr-card-soft)] border border-[var(--rr-border)] px-4 py-3 text-[var(--rr-text)]" />
       <div id="cedulaStatus" class="text-xs mt-1"></div>
     </div>
     <div>
-      <label class="block text-[10px] uppercase tracking-widest text-emerald-700 font-black mb-2">Teléfono</label>
-      <input id="telefono" type="tel" inputmode="numeric" placeholder="099 111 111"
-        class="w-full rounded-xl bg-emerald-50 border border-emerald-200 px-4 py-3 text-emerald-900" />
+      <label class="block text-[10px] uppercase tracking-widest text-[#9dc9b2] font-black mb-2">Teléfono</label>
+      <input id="telefono" type="tel" inputmode="numeric" placeholder="99111111"
+        class="w-full rounded-xl bg-[var(--rr-card-soft)] border border-[var(--rr-border)] px-4 py-3 text-[var(--rr-text)]" />
       <div id="telefonoStatus" class="text-xs mt-1"></div>
     </div>
     <div>
-      <label class="block text-[10px] uppercase tracking-widest text-emerald-700 font-black mb-2">Matrícula</label>
-      <input id="matricula" type="text" placeholder="ABC1234"
-        class="w-full rounded-xl bg-emerald-50 border border-emerald-200 px-4 py-3 text-emerald-900" />
-      <div id="matriculaStatus" class="text-xs mt-1"></div>
+      <label class="block text-[10px] uppercase tracking-widest text-[#9dc9b2] font-black mb-2">Marca</label>
+      <input id="marca" type="text" class="w-full rounded-xl bg-[var(--rr-card-soft)] border border-[var(--rr-border)] px-4 py-3 text-[var(--rr-text)]" />
     </div>
     <div>
-      <label class="block text-[10px] uppercase tracking-widest text-emerald-700 font-black mb-2">Marca</label>
-      <input id="marca" type="text" class="w-full rounded-xl bg-emerald-50 border border-emerald-200 px-4 py-3 text-emerald-900" />
-    </div>
-    <div>
-      <label class="block text-[10px] uppercase tracking-widest text-emerald-700 font-black mb-2">Modelo</label>
-      <input id="modelo" type="text" class="w-full rounded-xl bg-emerald-50 border border-emerald-200 px-4 py-3 text-emerald-900" />
+      <label class="block text-[10px] uppercase tracking-widest text-[#9dc9b2] font-black mb-2">Modelo</label>
+      <input id="modelo" type="text" class="w-full rounded-xl bg-[var(--rr-card-soft)] border border-[var(--rr-border)] px-4 py-3 text-[var(--rr-text)]" />
     </div>
     <div style="position:absolute;left:-9999px;opacity:0;pointer-events:none;" aria-hidden="true">
       <label for="website">No completar</label>
@@ -590,69 +622,44 @@ endif;
     </div>
   </div>
 
-  <div class="mt-4">
-    <label class="block text-[10px] uppercase tracking-widest text-emerald-700 font-black mb-2">Tipo de Turno</label>
-    <input id="tipo_turno" type="hidden" value="" />
-    <div class="grid grid-cols-2 gap-3">
-      <button type="button" id="btnParticular"
-        class="px-4 py-3 rounded-xl border border-emerald-200 bg-emerald-50 text-emerald-800 font-bold uppercase text-xs tracking-widest">Particular</button>
-      <button type="button" id="btnGarantia"
-        class="px-4 py-3 rounded-xl border border-emerald-200 bg-emerald-50 text-emerald-800 font-bold uppercase text-xs tracking-widest">Garantía</button>
+  <input id="tipo_turno" type="hidden" value="" />
+  <input id="particular_tipo" type="hidden" value="" />
+  <input id="garantia_tipo" type="hidden" value="" />
+  <input id="matricula" type="hidden" value="WEBCLIENTE" />
+  <input id="garantia_numero_service" type="hidden" value="" />
+  <input id="garantia_problema" type="hidden" value="" />
+
+  <div class="mt-5">
+    <label class="block text-[10px] uppercase tracking-widest text-[#9dc9b2] font-black mb-2">Selecciona el tipo</label>
+    <div class="grid md:grid-cols-2 gap-3">
+      <button type="button" id="btnTipoServiceGarantia" class="px-4 py-3 rounded-xl border border-[var(--rr-border)] bg-[var(--rr-card-soft)] text-[var(--rr-text)] font-bold uppercase text-xs tracking-widest">SERVICE EN GARANTIA</button>
+      <button type="button" id="btnTipoServiceParticular" class="px-4 py-3 rounded-xl border border-[var(--rr-border)] bg-[var(--rr-card-soft)] text-[var(--rr-text)] font-bold uppercase text-xs tracking-widest">SERVICE PARTICULAR</button>
+      <button type="button" id="btnTipoReparacionGarantia" class="px-4 py-3 rounded-xl border border-[var(--rr-border)] bg-[var(--rr-card-soft)] text-[var(--rr-text)] font-bold uppercase text-xs tracking-widest">REPARACION EN GARANTIA</button>
+      <button type="button" id="btnTipoReparacionParticular" class="px-4 py-3 rounded-xl border border-[var(--rr-border)] bg-[var(--rr-card-soft)] text-[var(--rr-text)] font-bold uppercase text-xs tracking-widest">REPARACION PARTICULAR</button>
+      <button type="button" id="btnTipoToma" class="px-4 py-3 rounded-xl border border-[var(--rr-border)] bg-[var(--rr-card-soft)] text-[var(--rr-text)] font-bold uppercase text-xs tracking-widest md:col-span-2">TOMA</button>
     </div>
   </div>
 
-  <div id="particularBox" class="mt-4 hidden">
-    <label class="block text-[10px] uppercase tracking-widest text-emerald-700 font-black mb-2">Tipo Particular</label>
-    <input id="particular_tipo" type="hidden" value="" />
-    <div class="grid grid-cols-2 gap-3">
-      <button type="button" id="btnParticularService"
-        class="px-4 py-3 rounded-xl border border-emerald-200 bg-emerald-50 text-emerald-800 font-bold uppercase text-xs tracking-widest">Service</button>
-      <button type="button" id="btnParticularTaller"
-        class="px-4 py-3 rounded-xl border border-emerald-200 bg-emerald-50 text-emerald-800 font-bold uppercase text-xs tracking-widest">Taller</button>
-    </div>
-    <div id="particularDetallesBox" class="mt-4 hidden">
-      <input id="detalles" type="text" placeholder="Detalles (si es Taller)"
-        class="w-full rounded-xl bg-emerald-50 border border-emerald-200 px-4 py-3 text-emerald-900" />
-    </div>
+  <div id="kmBox" class="mt-4">
+    <label class="block text-[10px] uppercase tracking-widest text-[#9dc9b2] font-black mb-2">KM</label>
+    <input id="km" type="text" inputmode="numeric" pattern="[0-9]*" placeholder="Ej: 45000"
+      class="w-full rounded-xl bg-[var(--rr-card-soft)] border border-[var(--rr-border)] px-4 py-3 text-[var(--rr-text)]" />
   </div>
 
-  <div id="garantiaBox" class="mt-4 hidden">
-    <label class="block text-[10px] uppercase tracking-widest text-emerald-700 font-black mb-2">Garantía</label>
-    <input id="garantia_tipo" type="hidden" value="" />
-    <div class="grid grid-cols-2 gap-3">
-      <button type="button" id="btnGarantiaReparacion"
-        class="px-4 py-3 rounded-xl border border-emerald-200 bg-emerald-50 text-emerald-800 font-bold uppercase text-xs tracking-widest">Reparación</button>
-      <button type="button" id="btnGarantiaService"
-        class="px-4 py-3 rounded-xl border border-emerald-200 bg-emerald-50 text-emerald-800 font-bold uppercase text-xs tracking-widest">Service</button>
-    </div>
-    <div id="garantiaProblemaBox" class="mt-4 hidden">
-      <label class="block text-[10px] uppercase tracking-widest text-emerald-700 font-black mb-2">Descripción del problema</label>
-      <input id="garantia_problema" type="text" placeholder="Descripción del problema"
-        class="w-full rounded-xl bg-emerald-50 border border-emerald-200 px-4 py-3 text-emerald-900" />
-    </div>
-  </div>
-
-  <div id="serviceDataRow" class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4 hidden">
-    <div id="garantiaNumeroServiceBox" class="hidden">
-      <label class="block text-[10px] uppercase tracking-widest text-emerald-700 font-black mb-2">Número de service</label>
-      <input id="garantia_numero_service" type="text" inputmode="numeric" pattern="[0-9]*" placeholder="Número de service"
-        class="w-full rounded-xl bg-emerald-50 border border-emerald-200 px-4 py-3 text-emerald-900" />
-    </div>
-    <div id="kmBox" class="hidden">
-      <label class="block text-[10px] uppercase tracking-widest text-emerald-700 font-black mb-2">KM</label>
-      <input id="km" type="text" inputmode="numeric" pattern="[0-9]*" placeholder="Ej: 45000"
-        class="w-full rounded-xl bg-emerald-50 border border-emerald-200 px-4 py-3 text-emerald-900" />
-    </div>
+  <div id="descripcionBox" class="mt-4">
+    <label class="block text-[10px] uppercase tracking-widest text-[#9dc9b2] font-black mb-2">Descripción</label>
+    <input id="detalles" type="text" placeholder="Contanos qué necesita la moto"
+      class="w-full rounded-xl bg-[var(--rr-card-soft)] border border-[var(--rr-border)] px-4 py-3 text-[var(--rr-text)]" />
   </div>
 
   <div class="mt-6 flex flex-wrap gap-3">
     <button id="btnVolver"
-      class="border border-emerald-200 text-emerald-700 font-black tracking-widest uppercase px-6 py-3 rounded-xl">Volver</button>
+      class="border border-[var(--rr-border)] text-[#d7f5e6] font-black tracking-widest uppercase px-6 py-3 rounded-xl bg-[var(--rr-card-soft)]">Volver</button>
     <button id="btnReservar"
-      class="bg-emerald-600 text-white font-black tracking-widest uppercase px-6 py-3 rounded-xl shadow-lg shadow-emerald-900/10 disabled:opacity-50 disabled:cursor-not-allowed"
+      class="bg-[var(--rr-accent)] text-white font-black tracking-widest uppercase px-6 py-3 rounded-xl shadow-lg shadow-[#16b95433] disabled:opacity-50 disabled:cursor-not-allowed"
       disabled>Confirmar Reserva</button>
   </div>
-  <div id="successBanner" class="hidden mt-4 rounded-xl border border-emerald-300 bg-emerald-50 px-4 py-3 text-emerald-700 text-sm font-semibold">
+  <div id="successBanner" class="hidden mt-4 rounded-xl border border-[#2a6449] bg-[#123324] px-4 py-3 text-[#9bf7bd] text-sm font-semibold">
     Reserva confirmada correctamente.
   </div>
   <div id="formStatus" class="text-xs mt-2"></div>
@@ -660,7 +667,7 @@ endif;
     </div>
   </div>
   <a id="btnWhatsapp"
-    class="fixed bottom-6 right-6 h-14 w-14 rounded-full bg-emerald-500 text-white shadow-xl flex items-center justify-center text-xl"
+    class="fixed bottom-6 right-6 h-14 w-14 rounded-full bg-[var(--rr-accent)] text-white shadow-xl shadow-[#16b95444] flex items-center justify-center text-xl"
     target="_blank" href="https://wa.me/" aria-label="WhatsApp">
     <svg viewBox="0 0 32 32" class="h-6 w-6 fill-current" aria-hidden="true">
       <path d="M19.11 17.2c-.27-.13-1.62-.8-1.87-.89-.25-.09-.44-.13-.62.13-.18.27-.71.89-.88 1.07-.16.18-.32.2-.6.07-.27-.13-1.15-.43-2.2-1.36-.81-.72-1.36-1.61-1.52-1.88-.16-.27-.02-.41.12-.55.12-.12.27-.32.4-.48.13-.16.18-.27.27-.45.09-.18.04-.33-.02-.46-.07-.13-.62-1.5-.85-2.06-.22-.53-.45-.46-.62-.47l-.53-.01c-.18 0-.46.07-.71.33-.25.27-.93.91-.93 2.22 0 1.31.96 2.58 1.09 2.75.13.18 1.88 2.87 4.56 4.03.64.28 1.14.45 1.53.58.64.2 1.22.17 1.68.1.51-.08 1.62-.66 1.85-1.29.23-.64.23-1.18.16-1.29-.07-.11-.25-.18-.53-.31zM16.02 5.5c-5.77 0-10.46 4.7-10.46 10.46 0 1.85.5 3.65 1.45 5.22L5.5 26.5l5.5-1.43a10.43 10.43 0 0 0 5.02 1.27c5.77 0 10.46-4.7 10.46-10.46S21.8 5.5 16.02 5.5zm0 19.1c-1.64 0-3.24-.44-4.65-1.27l-.33-.2-3.26.85.87-3.18-.21-.33a8.36 8.36 0 0 1-1.32-4.54c0-4.62 3.75-8.37 8.37-8.37 4.62 0 8.37 3.75 8.37 8.37 0 4.62-3.75 8.37-8.37 8.37z"/>
@@ -689,38 +696,30 @@ endif;
     const stepFormulario = $('stepFormulario');
     const formStatus = $('formStatus');
     const tipoTurno = $('tipo_turno');
-    const particularBox = $('particularBox');
-    const garantiaBox = $('garantiaBox');
     const particularTipo = $('particular_tipo');
-    const particularDetallesBox = $('particularDetallesBox');
+    const garantiaTipo = $('garantia_tipo');
     const successBanner = $('successBanner');
     const detalles = $('detalles');
     const cedula = $('cedula');
     const cedulaStatus = $('cedulaStatus');
     const nombreStatus = $('nombreStatus');
     const matricula = $('matricula');
-    const matriculaStatus = $('matriculaStatus');
     const marca = $('marca');
     const modelo = $('modelo');
     const telefono = $('telefono');
     const telefonoStatus = $('telefonoStatus');
     const btnWhatsapp = $('btnWhatsapp');
-    const btnParticular = $('btnParticular');
-    const btnGarantia = $('btnGarantia');
-    const btnParticularService = $('btnParticularService');
-    const btnParticularTaller = $('btnParticularTaller');
-    const btnGarantiaReparacion = $('btnGarantiaReparacion');
-    const btnGarantiaService = $('btnGarantiaService');
     const garantiaNumeroService = $('garantia_numero_service');
-    const garantiaProblema = $('garantia_problema');
-    const garantiaNumeroServiceBox = $('garantiaNumeroServiceBox');
-    const garantiaProblemaBox = $('garantiaProblemaBox');
-    const serviceDataRow = $('serviceDataRow');
+    const btnTipoServiceGarantia = $('btnTipoServiceGarantia');
+    const btnTipoServiceParticular = $('btnTipoServiceParticular');
+    const btnTipoReparacionGarantia = $('btnTipoReparacionGarantia');
+    const btnTipoReparacionParticular = $('btnTipoReparacionParticular');
+    const btnTipoToma = $('btnTipoToma');
     const kmBox = $('kmBox');
+    const descripcionBox = $('descripcionBox');
     const kmInput = $('km');
 
     let horaSeleccionada = '';
-    let ultimoLookupMatricula = '';
     let calendarioMes = new Date();
     calendarioMes.setDate(1);
     const availabilityCache = {};
@@ -838,7 +837,7 @@ endif;
 
       for (let i = 0; i < startDay; i++) {
         const empty = document.createElement('div');
-        empty.className = 'h-9 w-9';
+        empty.className = 'h-8 w-8 sm:h-9 sm:w-9';
         calGrid.appendChild(empty);
       }
 
@@ -850,13 +849,13 @@ endif;
         const btn = document.createElement('button');
         btn.type = 'button';
         btn.textContent = day;
-        btn.className = `h-9 w-9 rounded-full text-sm font-bold ${
+        btn.className = `h-8 w-8 sm:h-9 sm:w-9 rounded-full text-[11px] sm:text-sm font-bold ${
           isSelected
-            ? 'bg-emerald-600 text-white'
-            : 'bg-white text-emerald-900 border border-emerald-100 hover:border-emerald-400'
+            ? 'bg-[#16b954] text-white'
+            : 'bg-[#16271f] text-[#d7f5e6] border border-[#2a6449] hover:border-[#16b954]'
         }`;
         if (isDisabled) {
-          btn.className = 'h-9 w-9 rounded-full text-sm font-bold text-slate-300 bg-transparent border border-transparent cursor-not-allowed';
+          btn.className = 'h-8 w-8 sm:h-9 sm:w-9 rounded-full text-[11px] sm:text-sm font-bold text-slate-600 bg-transparent border border-transparent cursor-not-allowed';
           btn.disabled = true;
         } else {
           btn.onclick = () => {
@@ -878,7 +877,7 @@ endif;
 
     function setStatus(el, text, ok = true) {
       el.textContent = text;
-      el.className = ok ? 'text-xs mt-1 text-emerald-600' : 'text-xs mt-1 text-rose-600';
+      el.className = ok ? 'text-xs mt-1 text-[#7ef0a9]' : 'text-xs mt-1 text-rose-400';
     }
 
     async function fetchHorarios() {
@@ -903,12 +902,12 @@ endif;
         horariosStatus.textContent = data.length ? '' : 'Sin horarios disponibles';
         data.forEach(h => {
           const btn = document.createElement('button');
-          btn.className = 'w-full text-left px-4 py-2 rounded-lg border border-emerald-200 bg-white text-emerald-900 text-sm font-bold hover:border-emerald-500';
+          btn.className = 'w-full text-left px-4 py-2 rounded-lg border border-[#2a6449] bg-[#16271f] text-[#d7f5e6] text-sm font-bold hover:border-[#16b954]';
           btn.textContent = h.hora;
           btn.onclick = () => {
             horaSeleccionada = h.hora;
-            document.querySelectorAll('#horarios button').forEach(b => b.classList.remove('border-emerald-500', 'text-emerald-900', 'bg-emerald-100'));
-            btn.classList.add('border-emerald-500', 'text-emerald-900', 'bg-emerald-100');
+            document.querySelectorAll('#horarios button').forEach(b => b.classList.remove('border-[#16b954]', 'text-[#9bf7bd]', 'bg-[#123324]'));
+            btn.classList.add('border-[#16b954]', 'text-[#9bf7bd]', 'bg-[#123324]');
             validarForm();
           };
           horariosEl.appendChild(btn);
@@ -930,50 +929,35 @@ endif;
     }
 
     function validarNombreCompleto(value) {
-      const parts = value.trim().split(/\s+/).filter(Boolean);
-      return parts.length >= 2;
+      return value.trim().length >= 3;
     }
 
     function normalizarTelefonoUy(value) {
-      let digits = value.replace(/\\D/g, '');
+      const digits = value.replace(/\D/g, '');
       if (digits.length === 0) {
         return { formatted: '', local: '' };
       }
-      if (digits.startsWith('598')) {
-        digits = digits.slice(3);
-      }
-      if (digits.startsWith('0')) {
-        digits = digits.slice(1);
-      }
-      if (digits.startsWith('9')) {
-        digits = digits.slice(1);
-      }
-      const local = `09${digits}`.slice(0, 9);
-      return { formatted: local, local };
+      return { formatted: digits, local: digits };
     }
 
     function telefonoValido(value) {
-      return /^0\d{8}$/.test(value.trim());
+      return /^\d{8,9}$/.test(value.trim());
     }
 
     function normalizarMatricula(value) {
       return value.toUpperCase().replace(/[^A-Z0-9]/g, '');
     }
 
-    function matriculaValida(value) {
-      return /^[A-Z]{3}\d{3,4}$/.test(normalizarMatricula(value));
-    }
-
     function setActive(btn, group) {
-      group.forEach(b => b.classList.remove('border-emerald-500', 'bg-emerald-100', 'text-emerald-900'));
-      btn.classList.add('border-emerald-500', 'bg-emerald-100', 'text-emerald-900');
+      group.forEach(b => b.classList.remove('border-[#16b954]', 'bg-[#123324]', 'text-[#9bf7bd]'));
+      btn.classList.add('border-[#16b954]', 'bg-[#123324]', 'text-[#9bf7bd]');
     }
 
     function validarForm() {
-      const required = [$('nombre').value, telefono.value, marca.value, modelo.value, matricula.value, fecha.value, horaSeleccionada, tipoTurno.value];
+      const required = [$('nombre').value, cedula.value, telefono.value, marca.value, modelo.value, fecha.value, horaSeleccionada, tipoTurno.value];
       const okBase = required.every(v => String(v).trim() !== '');
 
-      const ciOk = cedula.value.trim() === '' ? true : validarCedulaUY(cedula.value);
+      const ciOk = validarCedulaUY(cedula.value);
       if (!ciOk) {
         setStatus(cedulaStatus, 'Cedula invalida', false);
       } else {
@@ -982,104 +966,50 @@ endif;
 
       const nombreOk = validarNombreCompleto($('nombre').value);
       if (!nombreOk) {
-        setStatus(nombreStatus, 'Ingresa nombre y apellido', false);
+        setStatus(nombreStatus, 'Ingresa un nombre válido', false);
       } else {
         nombreStatus.textContent = '';
       }
 
       const telOk = telefonoValido(telefono.value);
       if (!telOk) {
-        setStatus(telefonoStatus, 'Formato valido: 099111111', false);
+        setStatus(telefonoStatus, 'Formato valido: 8 o 9 digitos', false);
       } else {
         telefonoStatus.textContent = '';
       }
 
-      const matOk = matriculaValida(matricula.value);
-      if (!matOk) {
-        setStatus(matriculaStatus, 'Formato: 3 letras + 3/4 números', false);
-      } else if (matriculaStatus.textContent === '') {
-        setStatus(matriculaStatus, 'Matrícula válida', true);
-      }
+      const esToma = tipoTurno.value === 'Toma';
+      const kmOk = esToma ? true : /^\d+$/.test(kmInput.value.trim());
+      const descripcionOk = esToma ? true : detalles.value.trim() !== '';
 
-      const garantiaOk = tipoTurno.value !== 'Garantia'
-        ? true
-        : (
-          $('garantia_tipo').value !== '' && (
-            $('garantia_tipo').value === 'Service'
-              ? /^\d+$/.test(garantiaNumeroService.value.trim())
-              : garantiaProblema.value.trim() !== ''
-          )
-        );
-
-      const particularOk = tipoTurno.value !== 'Particular'
-        ? true
-        : ($('particular_tipo').value === 'Service' ? true : detalles.value.trim() !== '');
-
-      const kmOk = kmInput.disabled ? true : /^\d+$/.test(kmInput.value.trim());
-
-      btnReservar.disabled = !(okBase && ciOk && nombreOk && telOk && matOk && garantiaOk && particularOk && kmOk);
+      btnReservar.disabled = !(okBase && ciOk && nombreOk && telOk && kmOk && descripcionOk);
       btnContinuar.disabled = !fecha.value || !horaSeleccionada;
     }
 
-    async function buscarVehiculo() {
-      const mat = normalizarMatricula(matricula.value);
-      if (!matriculaValida(mat)) return;
-      if (mat === ultimoLookupMatricula) return;
-      ultimoLookupMatricula = mat;
-      try {
-        const res = await fetch(`${API_ORIGIN}/api/vehiculo?matricula=${encodeURIComponent(mat)}`);
-        const json = await res.json();
-        if (json.ok && json.data) {
-          marca.value = json.data.marca || marca.value;
-          modelo.value = json.data.modelo || modelo.value;
-          setStatus(matriculaStatus, 'Vehículo encontrado', true);
-        } else {
-          setStatus(matriculaStatus, 'Vehículo no registrado', true);
-        }
-      } catch { }
-    }
+    function aplicarTipoServicio(config, activeButton) {
+      tipoTurno.value = config.tipo_turno;
+      particularTipo.value = config.particular_tipo || '';
+      garantiaTipo.value = config.garantia_tipo || '';
+      garantiaNumeroService.value = config.garantia_numero_service || '';
 
-    function toggleDetallesParticular() {
-      const esService = particularTipo.value === 'Service';
-      particularDetallesBox.classList.toggle('hidden', esService);
-      detalles.disabled = esService;
-      if (esService) {
+      const esToma = config.tipo_turno === 'Toma';
+      kmBox.classList.toggle('hidden', esToma);
+      descripcionBox.classList.toggle('hidden', esToma);
+      kmInput.disabled = esToma;
+      detalles.disabled = esToma;
+      if (esToma) {
+        kmInput.value = '';
         detalles.value = '';
       }
-    }
 
-    function toggleGarantiaInputs() {
-      const esService = $('garantia_tipo').value === 'Service';
-      garantiaProblemaBox.classList.toggle('hidden', esService);
-      garantiaProblema.disabled = esService;
-      if (esService) {
-        garantiaProblema.value = '';
-      } else {
-        garantiaNumeroService.value = '';
-      }
-    }
-
-    function toggleKmInput() {
-      const isParticularService = tipoTurno.value === 'Particular' && particularTipo.value === 'Service';
-      const isGarantiaService = tipoTurno.value === 'Garantia' && $('garantia_tipo').value === 'Service';
-      const showNumeroService = isGarantiaService;
-      const showKm = isParticularService || isGarantiaService;
-
-      serviceDataRow.classList.toggle('hidden', !(showNumeroService || showKm));
-      garantiaNumeroServiceBox.classList.toggle('hidden', !showNumeroService);
-      garantiaNumeroService.disabled = !showNumeroService;
-      kmBox.classList.toggle('hidden', !showKm);
-      kmInput.disabled = !showKm;
-
-      kmBox.classList.toggle('md:col-span-2', showKm && !showNumeroService);
-      garantiaNumeroServiceBox.classList.remove('md:col-span-2');
-
-      if (!showNumeroService) {
-        garantiaNumeroService.value = '';
-      }
-      if (!showKm) {
-        kmInput.value = '';
-      }
+      setActive(activeButton, [
+        btnTipoServiceGarantia,
+        btnTipoServiceParticular,
+        btnTipoReparacionGarantia,
+        btnTipoReparacionParticular,
+        btnTipoToma
+      ]);
+      validarForm();
     }
 
     function loadWhiteLogoDataUrl(url) {
@@ -1170,14 +1100,14 @@ endif;
       drawCard(margin + colWidth + gap, y, colWidth, cardH, 'Hora', payload.hora);
       y += cardH + gap;
 
-      drawCard(margin, y, colWidth, cardH, 'Matrícula', payload.matricula);
+      drawCard(margin, y, colWidth, cardH, 'Cédula', payload.cedula);
       drawCard(margin + colWidth + gap, y, colWidth, cardH, 'Vehículo', `${payload.marca} ${payload.modelo}`.trim());
       y += cardH + gap;
 
       if (payload.km) {
         drawCard(margin, y, colWidth, cardH, 'KM', payload.km);
       }
-      drawCard(margin + colWidth + gap, y, colWidth, cardH, 'Turno', `${payload.tipo_turno}${payload.particular_tipo ? ' - ' + payload.particular_tipo : ''}`);
+      drawCard(margin + colWidth + gap, y, colWidth, cardH, 'Turno', payload.tipo_label || payload.tipo_turno);
       y += cardH + gap;
 
       if (payload.tipo_turno === 'Garantia') {
@@ -1193,8 +1123,8 @@ endif;
         }
       }
 
-      if (payload.garantia_problema || payload.detalles) {
-        const detailText = payload.garantia_problema || payload.detalles;
+      if (payload.descripcion || payload.garantia_problema || payload.detalles) {
+        const detailText = payload.descripcion || payload.garantia_problema || payload.detalles;
         doc.setFillColor(248, 250, 252);
         doc.setDrawColor(226, 232, 240);
         doc.roundedRect(margin, y, contentWidth, 20, 2, 2, 'FD');
@@ -1216,12 +1146,16 @@ endif;
       doc.text('Gracias por confiar en Taller Rosas', margin, 286);
       doc.text(`Generado: ${new Date().toLocaleString()}`, pageWidth - margin, 286, { align: 'right' });
 
-      const file = `reserva-${payload.fecha}-${payload.matricula}.pdf`;
+      const file = `reserva-${payload.fecha}-${payload.cedula || 'cliente'}.pdf`;
       doc.save(file.replace(/\s+/g, ''));
     }
 
     async function enviarReserva() {
       formStatus.textContent = 'Enviando...';
+      const cedulaNormalizada = cedula.value.replace(/\D/g, '');
+      const matriculaVirtual = (cedulaNormalizada ? `CLI${cedulaNormalizada}` : 'WEBCLIENTE').slice(0, 10);
+      const esReparacionGarantia = tipoTurno.value === 'Garantia' && garantiaTipo.value === 'Reparacion';
+      const esToma = tipoTurno.value === 'Toma';
 
       const payload = {
         nombre: $('nombre').value.trim(),
@@ -1230,15 +1164,23 @@ endif;
         marca: marca.value.trim(),
         modelo: modelo.value.trim(),
         km: kmInput.disabled ? '' : kmInput.value.replace(/\D/g, '').trim(),
-        matricula: normalizarMatricula(matricula.value.trim()),
+        matricula: normalizarMatricula(matriculaVirtual),
         tipo_turno: tipoTurno.value,
         particular_tipo: tipoTurno.value === 'Particular' ? particularTipo.value : null,
-        garantia_tipo: tipoTurno.value === 'Garantia' ? $('garantia_tipo').value : null,
-        garantia_numero_service: tipoTurno.value === 'Garantia' ? $('garantia_numero_service').value : null,
-        garantia_problema: tipoTurno.value === 'Garantia' ? $('garantia_problema').value : null,
+        garantia_tipo: tipoTurno.value === 'Garantia' ? garantiaTipo.value : null,
+        garantia_numero_service: tipoTurno.value === 'Garantia' ? garantiaNumeroService.value : null,
+        garantia_problema: esReparacionGarantia ? detalles.value.trim() : null,
         fecha: fecha.value,
         hora: horaSeleccionada,
-        detalles: particularTipo.value === 'Service' ? '' : detalles.value.trim(),
+        detalles: esToma ? '' : detalles.value.trim(),
+        descripcion: detalles.value.trim(),
+        tipo_label: (
+          tipoTurno.value === 'Garantia' && garantiaTipo.value === 'Service' ? 'SERVICE EN GARANTIA'
+            : tipoTurno.value === 'Particular' && particularTipo.value === 'Service' ? 'SERVICE PARTICULAR'
+            : tipoTurno.value === 'Garantia' && garantiaTipo.value === 'Reparacion' ? 'REPARACION EN GARANTIA'
+            : tipoTurno.value === 'Particular' && particularTipo.value === 'Taller' ? 'REPARACION PARTICULAR'
+            : 'TOMA'
+        ),
         website: ($('website')?.value || '').trim(),
         client_elapsed_ms: Math.max(0, Date.now() - PAGE_LOADED_AT)
       };
@@ -1300,29 +1242,14 @@ endif;
 
     setFechaInicial();
 
-    ['nombre', 'marca', 'modelo', 'km'].forEach(id => {
+    ['nombre', 'marca', 'modelo', 'km', 'detalles'].forEach(id => {
       $(id).addEventListener('input', validarForm);
     });
     kmInput.addEventListener('input', () => {
       kmInput.value = kmInput.value.replace(/\D/g, '');
       validarForm();
     });
-    garantiaNumeroService.addEventListener('input', () => {
-      garantiaNumeroService.value = garantiaNumeroService.value.replace(/\D/g, '');
-      validarForm();
-    });
-    garantiaProblema.addEventListener('input', validarForm);
     cedula.addEventListener('input', validarForm);
-
-    matricula.addEventListener('blur', buscarVehiculo);
-    matricula.addEventListener('input', () => {
-      const normalized = normalizarMatricula(matricula.value).slice(0, 7);
-      matricula.value = normalized;
-      if (matriculaValida(normalized)) {
-        buscarVehiculo();
-      }
-      validarForm();
-    });
 
     telefono.addEventListener('input', () => {
       const { formatted } = normalizarTelefonoUy(telefono.value);
@@ -1332,51 +1259,35 @@ endif;
       validarForm();
     });
 
-    btnParticular.addEventListener('click', () => {
-      tipoTurno.value = 'Particular';
-      setActive(btnParticular, [btnParticular, btnGarantia]);
-      particularBox.classList.remove('hidden');
-      garantiaBox.classList.add('hidden');
-      toggleKmInput();
-      validarForm();
+    btnTipoServiceGarantia.addEventListener('click', () => {
+      aplicarTipoServicio({
+        tipo_turno: 'Garantia',
+        garantia_tipo: 'Service',
+        garantia_numero_service: '1'
+      }, btnTipoServiceGarantia);
     });
-    btnGarantia.addEventListener('click', () => {
-      tipoTurno.value = 'Garantia';
-      setActive(btnGarantia, [btnParticular, btnGarantia]);
-      garantiaBox.classList.remove('hidden');
-      particularBox.classList.add('hidden');
-      toggleKmInput();
-      validarForm();
+    btnTipoServiceParticular.addEventListener('click', () => {
+      aplicarTipoServicio({
+        tipo_turno: 'Particular',
+        particular_tipo: 'Service'
+      }, btnTipoServiceParticular);
     });
-
-    btnParticularService.addEventListener('click', () => {
-      particularTipo.value = 'Service';
-      setActive(btnParticularService, [btnParticularService, btnParticularTaller]);
-      toggleDetallesParticular();
-      toggleKmInput();
-      validarForm();
+    btnTipoReparacionGarantia.addEventListener('click', () => {
+      aplicarTipoServicio({
+        tipo_turno: 'Garantia',
+        garantia_tipo: 'Reparacion'
+      }, btnTipoReparacionGarantia);
     });
-    btnParticularTaller.addEventListener('click', () => {
-      particularTipo.value = 'Taller';
-      setActive(btnParticularTaller, [btnParticularService, btnParticularTaller]);
-      toggleDetallesParticular();
-      toggleKmInput();
-      validarForm();
+    btnTipoReparacionParticular.addEventListener('click', () => {
+      aplicarTipoServicio({
+        tipo_turno: 'Particular',
+        particular_tipo: 'Taller'
+      }, btnTipoReparacionParticular);
     });
-
-    btnGarantiaReparacion.addEventListener('click', () => {
-      $('garantia_tipo').value = 'Reparacion';
-      setActive(btnGarantiaReparacion, [btnGarantiaReparacion, btnGarantiaService]);
-      toggleGarantiaInputs();
-      toggleKmInput();
-      validarForm();
-    });
-    btnGarantiaService.addEventListener('click', () => {
-      $('garantia_tipo').value = 'Service';
-      setActive(btnGarantiaService, [btnGarantiaReparacion, btnGarantiaService]);
-      toggleGarantiaInputs();
-      toggleKmInput();
-      validarForm();
+    btnTipoToma.addEventListener('click', () => {
+      aplicarTipoServicio({
+        tipo_turno: 'Toma'
+      }, btnTipoToma);
     });
 
     btnReservar.addEventListener('click', enviarReserva);
@@ -1391,29 +1302,11 @@ endif;
     });
 
     btnWhatsapp.href = 'https://wa.me/59894860496';
-    toggleDetallesParticular();
-    toggleGarantiaInputs();
-    toggleKmInput();
-    btnParticular.click();
-    btnParticularService.click();
+    btnTipoServiceParticular.click();
   </script>
 </body>
 
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
