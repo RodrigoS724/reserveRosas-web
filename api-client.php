@@ -118,6 +118,22 @@ class RemoteApiClient
     }
 
     /**
+     * Obtiene los vehículos asociados a una cédula
+     */
+    public function obtenerVehiculosPorCedula(string $cedula): array
+    {
+        return $this->get('vehiculos/por-cedula', ['cedula' => $cedula]);
+    }
+
+    /**
+     * Obtiene el catálogo de vehículos disponibles
+     */
+    public function obtenerCatalogoVehiculos(): array
+    {
+        return $this->get('vehiculos/catalogo');
+    }
+
+    /**
      * Crea una nueva reserva
      */
     public function crearReserva(array $data): array

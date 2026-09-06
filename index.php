@@ -143,10 +143,30 @@ if (str_starts_with($path, '/api')) {
         }
         // Proxy hacia la API remota
         $result = $client->obtenerVehiculo($matricula);
-        if (!$result['ok'] ?? false) {
+      if (!($result['ok'] ?? false)) {
             jsonResponse($result, 400);
         }
         jsonResponse($result);
+    }
+
+    if ($method === 'GET' && $path === '/api/vehiculos/por-cedula') {
+      $cedula = $_GET['cedula'] ?? '';
+      if ($cedula === '') {
+        jsonResponse(['ok' => false, 'error' => 'Cédula requerida'], 400);
+      }
+      $result = $client->obtenerVehiculosPorCedula($cedula);
+      if (!($result['ok'] ?? false)) {
+        jsonResponse($result, 400);
+      }
+      jsonResponse($result);
+    }
+
+    if ($method === 'GET' && $path === '/api/vehiculos/catalogo') {
+      $result = $client->obtenerCatalogoVehiculos();
+      if (!($result['ok'] ?? false)) {
+        jsonResponse($result, 400);
+      }
+      jsonResponse($result);
     }
 
     if ($method === 'POST' && $path === '/api/reservas') {
@@ -216,7 +236,6 @@ $previewPayload = [
     'hora' => trim((string)($_GET['hora'] ?? '10:30')),
     'matricula' => trim((string)($_GET['matricula'] ?? 'SCQ1423')),
     'marca' => trim((string)($_GET['marca'] ?? 'Bajaj')),
-    'modelo' => trim((string)($_GET['modelo'] ?? 'Boxer 150')),
     'tipo_turno' => trim((string)($_GET['tipo_turno'] ?? 'Particular')),
     'particular_tipo' => trim((string)($_GET['particular_tipo'] ?? 'Service')),
     'km' => trim((string)($_GET['km'] ?? '12500')),
@@ -269,7 +288,7 @@ $previewPayload = [
           <div class="rounded-2xl bg-slate-50 px-4 py-3"><span class="block text-slate-500 font-semibold">Fecha</span><span class="block text-slate-900 font-black mt-1"><?php echo htmlspecialchars($previewPayload['fecha'], ENT_QUOTES); ?></span></div>
           <div class="rounded-2xl bg-slate-50 px-4 py-3"><span class="block text-slate-500 font-semibold">Hora</span><span class="block text-slate-900 font-black mt-1"><?php echo htmlspecialchars($previewPayload['hora'], ENT_QUOTES); ?></span></div>
           <div class="rounded-2xl bg-slate-50 px-4 py-3"><span class="block text-slate-500 font-semibold">Matrícula</span><span class="block text-slate-900 font-black mt-1"><?php echo htmlspecialchars($previewPayload['matricula'], ENT_QUOTES); ?></span></div>
-          <div class="rounded-2xl bg-slate-50 px-4 py-3"><span class="block text-slate-500 font-semibold">Vehículo</span><span class="block text-slate-900 font-black mt-1"><?php echo htmlspecialchars(trim($previewPayload['marca'] . ' ' . $previewPayload['modelo']), ENT_QUOTES); ?></span></div>
+          <div class="rounded-2xl bg-slate-50 px-4 py-3"><span class="block text-slate-500 font-semibold">Vehículo</span><span class="block text-slate-900 font-black mt-1"><?php echo htmlspecialchars($previewPayload['marca'], ENT_QUOTES); ?></span></div>
           <div class="rounded-2xl bg-slate-50 px-4 py-3"><span class="block text-slate-500 font-semibold">Tipo</span><span class="block text-slate-900 font-black mt-1"><?php echo htmlspecialchars($previewPayload['tipo_turno'] . ($previewPayload['particular_tipo'] !== '' ? ' - ' . $previewPayload['particular_tipo'] : ''), ENT_QUOTES); ?></span></div>
           <div class="rounded-2xl bg-slate-50 px-4 py-3"><span class="block text-slate-500 font-semibold">Kilómetros</span><span class="block text-slate-900 font-black mt-1"><?php echo htmlspecialchars($previewPayload['km'] !== '' ? $previewPayload['km'] : '-', ENT_QUOTES); ?></span></div>
         </div>
@@ -360,7 +379,7 @@ $previewPayload = [
       drawCard(margin + colWidth + gap, y, 'Hora', payload.hora);
       y += cardH + gap;
       drawCard(margin, y, 'Matrícula', payload.matricula);
-      drawCard(margin + colWidth + gap, y, 'Vehículo', `${payload.marca || ''} ${payload.modelo || ''}`.trim());
+      drawCard(margin + colWidth + gap, y, 'Vehículo', payload.marca || '');
       y += cardH + gap;
       drawCard(margin, y, 'Tipo', `${payload.tipo_turno || ''}${payload.particular_tipo ? ' - ' + payload.particular_tipo : ''}`);
       drawCard(margin + colWidth + gap, y, 'KM', payload.km || '-');
@@ -608,6 +627,17 @@ endif;
         class="w-full rounded-xl bg-[var(--rr-card-soft)] border border-[var(--rr-border)] px-4 py-3 text-[var(--rr-text)]" />
       <div id="telefonoStatus" class="text-xs mt-1"></div>
     </div>
+    <div class="md:col-span-2 rounded-2xl border border-[#234435] bg-[#0f1d17]/80 p-4" id="vehiculosClienteBox">
+      <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+        <div>
+          <div class="text-[10px] uppercase tracking-[0.22em] text-[#74f3a5] font-black">Motos del cliente</div>
+          <div id="vehiculosClienteStatus" class="mt-1 text-sm text-[#d7f5e6]">Escribí la cédula para buscar motos registradas.</div>
+        </div>
+        <button id="btnLimpiarVehiculo" type="button" class="px-3 py-2 rounded-xl border border-[#2a6449] bg-[#16271f] text-[#d7f5e6] font-black uppercase tracking-widest text-[11px] hover:bg-[#1c3328] transition-colors">Limpiar</button>
+      </div>
+      <div id="vehiculosClienteList" class="mt-3 grid gap-2"></div>
+      <div id="vehiculoSeleccionadoResumen" class="mt-3 text-xs text-[#9dc9b2]"></div>
+    </div>
     <div>
       <label class="block text-[10px] uppercase tracking-widest text-[#9dc9b2] font-black mb-2">Marca</label>
       <input id="marca" type="text" class="w-full rounded-xl bg-[var(--rr-card-soft)] border border-[var(--rr-border)] px-4 py-3 text-[var(--rr-text)]" />
@@ -659,10 +689,46 @@ endif;
       class="bg-[var(--rr-accent)] text-white font-black tracking-widest uppercase px-6 py-3 rounded-xl shadow-lg shadow-[#16b95433] disabled:opacity-50 disabled:cursor-not-allowed"
       disabled>Confirmar Reserva</button>
   </div>
-  <div id="successBanner" class="hidden mt-4 rounded-xl border border-[#2a6449] bg-[#123324] px-4 py-3 text-[#9bf7bd] text-sm font-semibold">
-    Reserva confirmada correctamente.
-  </div>
   <div id="formStatus" class="text-xs mt-2"></div>
+</div>
+
+<div id="stepConfirmacion" class="hidden rounded-2xl border border-[#234435] bg-gradient-to-b from-[#11251c] to-[#0c1713] p-6 md:p-8 shadow-xl shadow-black/20">
+  <div class="max-w-3xl mx-auto">
+    <div class="inline-flex items-center gap-2 rounded-full border border-[#2a6449] bg-[#123324] px-3 py-1 text-[11px] font-black uppercase tracking-[0.22em] text-[#9bf7bd] mb-4">
+      Reserva confirmada
+    </div>
+    <h2 class="text-3xl md:text-4xl font-black tracking-tight text-[#ecfff5]">Tu turno quedó confirmado</h2>
+    <p class="mt-3 text-[#9dc9b2] max-w-2xl">La reserva ya fue enviada. Podés guardar el comprobante y crear otra si hace falta.</p>
+
+    <div class="mt-6 grid gap-3 sm:grid-cols-2 text-sm">
+      <div class="rounded-2xl border border-[#234435] bg-[#0f1d17] px-4 py-3">
+        <span class="block text-[#9dc9b2] font-semibold">Cliente</span>
+        <span id="confirmacionNombre" class="block text-[#f0fff7] font-black mt-1"></span>
+      </div>
+      <div class="rounded-2xl border border-[#234435] bg-[#0f1d17] px-4 py-3">
+        <span class="block text-[#9dc9b2] font-semibold">Fecha y hora</span>
+        <span id="confirmacionFechaHora" class="block text-[#f0fff7] font-black mt-1"></span>
+      </div>
+      <div class="rounded-2xl border border-[#234435] bg-[#0f1d17] px-4 py-3">
+        <span class="block text-[#9dc9b2] font-semibold">Teléfono</span>
+        <span id="confirmacionTelefono" class="block text-[#f0fff7] font-black mt-1"></span>
+      </div>
+      <div class="rounded-2xl border border-[#234435] bg-[#0f1d17] px-4 py-3">
+        <span class="block text-[#9dc9b2] font-semibold">Matrícula</span>
+        <span id="confirmacionMatricula" class="block text-[#f0fff7] font-black mt-1"></span>
+      </div>
+    </div>
+
+    <div class="mt-4 rounded-2xl border border-[#234435] bg-[#0f1d17] px-4 py-4">
+      <span class="block text-[#9dc9b2] font-semibold text-sm">Estado</span>
+      <span id="confirmacionEstado" class="block text-[#f0fff7] font-black mt-1 text-base"></span>
+    </div>
+
+    <div class="mt-6 flex flex-wrap gap-3">
+      <button id="btnNuevaReserva" type="button" class="border border-[#234435] text-[#d7f5e6] font-black tracking-widest uppercase px-6 py-3 rounded-xl bg-[#16271f]">Nueva reserva</button>
+      <a href="<?php echo htmlspecialchars($homeUrl, ENT_QUOTES); ?>" class="bg-[var(--rr-accent)] text-white font-black tracking-widest uppercase px-6 py-3 rounded-xl shadow-lg shadow-[#16b95433]">Volver al inicio</a>
+    </div>
+  </div>
 </div>
     </div>
   </div>
@@ -694,11 +760,11 @@ endif;
     const btnVolver = $('btnVolver');
     const stepCalendario = $('stepCalendario');
     const stepFormulario = $('stepFormulario');
+    const stepConfirmacion = $('stepConfirmacion');
     const formStatus = $('formStatus');
     const tipoTurno = $('tipo_turno');
     const particularTipo = $('particular_tipo');
     const garantiaTipo = $('garantia_tipo');
-    const successBanner = $('successBanner');
     const detalles = $('detalles');
     const cedula = $('cedula');
     const cedulaStatus = $('cedulaStatus');
@@ -708,6 +774,11 @@ endif;
     const modelo = $('modelo');
     const telefono = $('telefono');
     const telefonoStatus = $('telefonoStatus');
+    const vehiculosClienteBox = $('vehiculosClienteBox');
+    const vehiculosClienteStatus = $('vehiculosClienteStatus');
+    const vehiculosClienteList = $('vehiculosClienteList');
+    const vehiculoSeleccionadoResumen = $('vehiculoSeleccionadoResumen');
+    const btnLimpiarVehiculo = $('btnLimpiarVehiculo');
     const btnWhatsapp = $('btnWhatsapp');
     const garantiaNumeroService = $('garantia_numero_service');
     const btnTipoServiceGarantia = $('btnTipoServiceGarantia');
@@ -718,6 +789,12 @@ endif;
     const kmBox = $('kmBox');
     const descripcionBox = $('descripcionBox');
     const kmInput = $('km');
+    const confirmacionNombre = $('confirmacionNombre');
+    const confirmacionFechaHora = $('confirmacionFechaHora');
+    const confirmacionTelefono = $('confirmacionTelefono');
+    const confirmacionMatricula = $('confirmacionMatricula');
+    const confirmacionEstado = $('confirmacionEstado');
+    const btnNuevaReserva = $('btnNuevaReserva');
 
     let horaSeleccionada = '';
     let calendarioMes = new Date();
@@ -725,6 +802,10 @@ endif;
     const availabilityCache = {};
     let cargandoDisponibilidad = false;
     let lastDisponibilidadKey = '';
+    let cedulaLookupTimer = null;
+    let vehiculosCliente = [];
+    let clienteLookup = null;
+    let vehiculoSeleccionado = null;
 
     const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
     const MIN_ADVANCE_HOURS = 24;
@@ -824,6 +905,134 @@ endif;
         cargandoDisponibilidad = false;
         renderCalendar();
       }
+    }
+
+    function resetVehiculosCliente(message = 'Escribí la cédula para buscar motos registradas.') {
+      vehiculosCliente = [];
+      clienteLookup = null;
+      vehiculoSeleccionado = null;
+      if (vehiculosClienteStatus) {
+        vehiculosClienteStatus.textContent = message;
+      }
+      if (vehiculosClienteList) {
+        vehiculosClienteList.innerHTML = '';
+      }
+      if (vehiculoSeleccionadoResumen) {
+        vehiculoSeleccionadoResumen.textContent = '';
+      }
+    }
+
+    function renderVehiculosCliente() {
+      if (!vehiculosClienteList || !vehiculosClienteStatus) return;
+
+      vehiculosClienteList.innerHTML = '';
+      const cedulaBusqueda = cedula.value.replace(/\D/g, '');
+
+      if (!cedulaBusqueda) {
+        vehiculosClienteStatus.textContent = 'Escribí la cédula para buscar motos registradas.';
+        if (vehiculoSeleccionadoResumen) vehiculoSeleccionadoResumen.textContent = '';
+        return;
+      }
+
+      if (cedulaBusqueda.length < 7) {
+        vehiculosClienteStatus.textContent = 'Ingresá una cédula válida para buscar.';
+        if (vehiculoSeleccionadoResumen) vehiculoSeleccionadoResumen.textContent = '';
+        return;
+      }
+
+      if (clienteLookup) {
+        vehiculosClienteStatus.textContent = `Cliente encontrado: ${clienteLookup.nombre}${clienteLookup.telefono ? ` · ${clienteLookup.telefono}` : ''}`;
+      } else {
+        vehiculosClienteStatus.textContent = 'No hay cliente registrado con esa cédula. Podés cargar una nueva reserva manualmente.';
+      }
+
+      if (!vehiculosCliente.length) {
+        const empty = document.createElement('div');
+        empty.className = 'rounded-xl border border-[#2a6449] bg-[#16271f] px-4 py-3 text-sm text-[#9dc9b2]';
+        empty.textContent = 'No hay motos registradas para esta cédula.';
+        vehiculosClienteList.appendChild(empty);
+        if (vehiculoSeleccionadoResumen) vehiculoSeleccionadoResumen.textContent = '';
+        return;
+      }
+
+      vehiculosCliente.forEach((vehiculo) => {
+        const selected = vehiculoSeleccionado && String(vehiculoSeleccionado.id) === String(vehiculo.id);
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = selected
+          ? 'text-left rounded-xl border border-[#16b954] bg-[#123324] px-4 py-3 transition-colors'
+          : 'text-left rounded-xl border border-[#2a6449] bg-[#16271f] px-4 py-3 hover:bg-[#1c3328] transition-colors';
+        button.innerHTML = `
+          <div class="flex items-center justify-between gap-2">
+            <div class="text-sm font-black text-[#f0fff7]">${vehiculo.matricula || 'Sin matrícula'}</div>
+            <div class="text-[10px] font-black uppercase tracking-[0.22em] text-[#74f3a5]">${vehiculo.dt_vehiculo_codigo || 'Sin código'}</div>
+          </div>
+          <div class="mt-1 text-xs text-[#b1d8c4]">${vehiculo.marca || ''}${vehiculo.color ? ` · ${vehiculo.color}` : ''}</div>
+        `;
+        button.addEventListener('click', () => {
+          vehiculoSeleccionado = vehiculo;
+          marca.value = vehiculo.marca || marca.value;
+          if (vehiculo.telefono) {
+            telefono.value = normalizarTelefonoUy(String(vehiculo.telefono));
+          } else if (clienteLookup?.telefono) {
+            telefono.value = normalizarTelefonoUy(String(clienteLookup.telefono));
+          }
+          if (clienteLookup?.nombre && !nombre.value.trim()) {
+            nombre.value = String(clienteLookup.nombre);
+          }
+          matricula.value = normalizarMatricula(String(vehiculo.matricula || 'WEBCLIENTE')) || 'WEBCLIENTE';
+          if (vehiculoSeleccionadoResumen) {
+            vehiculoSeleccionadoResumen.textContent = `Seleccionada: ${vehiculo.matricula || 'Sin matrícula'} · ${vehiculo.marca || ''}`.trim();
+          }
+          renderVehiculosCliente();
+          validarForm();
+        });
+        vehiculosClienteList.appendChild(button);
+      });
+    }
+
+    async function cargarVehiculosCliente() {
+      const cedulaNormalizada = cedula.value.replace(/\D/g, '');
+      if (cedulaNormalizada.length < 7) {
+        resetVehiculosCliente(cedula.value.trim() ? 'Ingresá una cédula válida para buscar.' : 'Escribí la cédula para buscar motos registradas.');
+        return;
+      }
+
+      if (vehiculosClienteStatus) {
+        vehiculosClienteStatus.textContent = 'Buscando motos registradas...';
+      }
+
+      try {
+        const res = await fetch(`${API_ORIGIN}/api/vehiculos/por-cedula?cedula=${encodeURIComponent(cedulaNormalizada)}`);
+        const json = await res.json();
+        if (!json.ok) {
+          throw new Error(json.error || 'No se pudo buscar la cédula');
+        }
+        clienteLookup = json.data?.cliente || null;
+        vehiculosCliente = Array.isArray(json.data?.vehiculos) ? json.data.vehiculos : [];
+        if (clienteLookup?.telefono && !telefono.value.trim()) {
+          telefono.value = normalizarTelefonoUy(String(clienteLookup.telefono));
+        }
+        if (clienteLookup?.nombre && !nombre.value.trim()) {
+          nombre.value = String(clienteLookup.nombre);
+        }
+        vehiculoSeleccionado = null;
+        matricula.value = 'WEBCLIENTE';
+        renderVehiculosCliente();
+        validarForm();
+      } catch (error) {
+        console.error('[Turnos] Error buscando vehiculos por cedula:', error);
+        resetVehiculosCliente('No se pudo consultar la cédula. Podés continuar cargando la reserva manualmente.');
+      }
+    }
+
+    function programarBusquedaVehiculosCliente() {
+      if (cedulaLookupTimer) {
+        clearTimeout(cedulaLookupTimer);
+      }
+      cedulaLookupTimer = setTimeout(() => {
+        cargarVehiculosCliente();
+      }, 350);
     }
 
     function renderCalendar() {
@@ -1000,6 +1209,7 @@ endif;
       if (esToma) {
         kmInput.value = '';
         detalles.value = '';
+        resetVehiculosCliente('Las motos registradas no se usan en toma.')
       }
 
       setActive(activeButton, [
@@ -1101,7 +1311,7 @@ endif;
       y += cardH + gap;
 
       drawCard(margin, y, colWidth, cardH, 'Cédula', payload.cedula);
-      drawCard(margin + colWidth + gap, y, colWidth, cardH, 'Vehículo', `${payload.marca} ${payload.modelo}`.trim());
+      drawCard(margin + colWidth + gap, y, colWidth, cardH, 'Vehículo', payload.marca);
       y += cardH + gap;
 
       if (payload.km) {
@@ -1153,7 +1363,8 @@ endif;
     async function enviarReserva() {
       formStatus.textContent = 'Enviando...';
       const cedulaNormalizada = cedula.value.replace(/\D/g, '');
-      const matriculaVirtual = (cedulaNormalizada ? `CLI${cedulaNormalizada}` : 'WEBCLIENTE').slice(0, 10);
+      const matriculaBase = vehiculoSeleccionado?.matricula || (matricula.value && matricula.value !== 'WEBCLIENTE' ? matricula.value : (cedulaNormalizada ? `CLI${cedulaNormalizada}` : 'WEBCLIENTE'));
+      const matriculaVirtual = normalizarMatricula(String(matriculaBase)).slice(0, 10) || 'WEBCLIENTE';
       const esReparacionGarantia = tipoTurno.value === 'Garantia' && garantiaTipo.value === 'Reparacion';
       const esToma = tipoTurno.value === 'Toma';
 
@@ -1194,12 +1405,20 @@ endif;
         const json = await res.json();
         if (!json.ok) throw new Error(json.error || 'Error');
         setStatus(formStatus, 'Reserva creada con éxito', true);
-        successBanner.classList.remove('hidden');
         try {
           await generarPdfReserva(payload);
         } catch (pdfError) {
           console.error('No se pudo generar el comprobante:', pdfError);
         }
+        confirmacionNombre.textContent = payload.nombre || '-';
+        confirmacionFechaHora.textContent = `${payload.fecha || '-'} · ${payload.hora || '-'}`;
+        confirmacionTelefono.textContent = payload.telefono || '-';
+        confirmacionMatricula.textContent = payload.matricula || '-';
+        confirmacionEstado.textContent = 'Reserva guardada correctamente. Ya podés cerrar esta pantalla o crear otra.';
+        stepCalendario.classList.add('hidden');
+        stepFormulario.classList.add('hidden');
+        stepConfirmacion.classList.remove('hidden');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         fetchHorarios();
       } catch (e) {
         setStatus(formStatus, e.message || 'Error al crear reserva', false);
@@ -1249,7 +1468,10 @@ endif;
       kmInput.value = kmInput.value.replace(/\D/g, '');
       validarForm();
     });
-    cedula.addEventListener('input', validarForm);
+    cedula.addEventListener('input', () => {
+      validarForm();
+      programarBusquedaVehiculosCliente();
+    });
 
     telefono.addEventListener('input', () => {
       const { formatted } = normalizarTelefonoUy(telefono.value);
@@ -1301,44 +1523,23 @@ endif;
       stepCalendario.classList.remove('hidden');
     });
 
+    btnNuevaReserva.addEventListener('click', () => {
+      stepConfirmacion.classList.add('hidden');
+      stepCalendario.classList.remove('hidden');
+      stepFormulario.classList.add('hidden');
+      formStatus.textContent = '';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    btnLimpiarVehiculo.addEventListener('click', () => {
+      resetVehiculosCliente();
+      validarForm();
+    });
+
     btnWhatsapp.href = 'https://wa.me/59894860496';
     btnTipoServiceParticular.click();
+    resetVehiculosCliente();
   </script>
 </body>
 
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
